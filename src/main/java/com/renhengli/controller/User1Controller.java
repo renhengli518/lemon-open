@@ -36,6 +36,7 @@ public class User1Controller {
 		logger.error("-----error log-------");
 		System.out.println("UserController.user1().hello=" + hello);
 		map.put("hello", hello);
+		logger.debug("-----end---------");
 		logger.info("-----end---------");
 		return "User";
 	}
