@@ -37,6 +37,6 @@ public class User1Controller {
 		map.put("hello", hello);
 		logger.debug("-----end---------");
 		logger.info("-----end---------");
-		return "User";
+		return "user";
 	}
 }
