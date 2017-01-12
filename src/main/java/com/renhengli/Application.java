@@ -27,10 +27,10 @@ public class Application {
 		return (new EmbeddedServletContainerCustomizer() {
 			@Override
 			public void customize(ConfigurableEmbeddedServletContainer container) {
-				//读取staitic下面的错误页面
-				ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/401.html");
-				ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
-				ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
+				//读取static下面的错误页面
+				ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/static/401.html");
+				ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/static/404.html");
+				ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/static/500.html");
 				container.addErrorPages(error401Page, error404Page, error500Page);
 			}
 		});
