@@ -1,5 +1,6 @@
 package com.renhengli;
 
+import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
@@ -7,6 +8,7 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.context.embedded.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 2017-1-11
@@ -15,10 +17,12 @@ import org.springframework.http.HttpStatus;
  *
  */
 @SpringBootApplication
+@EnableScheduling
 public class Application {
-
+	private static Logger logger = Logger.getLogger(Application.class);
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
+		logger.info("---------server start success !------------");
 	}
 
 	@Bean

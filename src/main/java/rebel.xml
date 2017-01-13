@@ -8,4 +8,11 @@
 		</dir>
 	</classpath>
 
+	<web>
+		<link target="/">
+			<dir name="F:/workspace_lanyuan/springboot-mybatis/src/main/resources">
+			</dir>
+		</link>
+	</web>
+
 </application>
