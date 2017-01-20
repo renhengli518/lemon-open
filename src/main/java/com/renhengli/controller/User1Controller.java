@@ -3,12 +3,16 @@ package com.renhengli.controller;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.junit.Assert;
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,6 +42,13 @@ public class User1Controller {
 
 	@Autowired
 	private RedisTemplate<String, User> redisTemplate;
+	
+	@Autowired
+	@Qualifier("mailSender") 
+	private JavaMailSender mailSender;
+
+	@Autowired
+	private VelocityEngine velocityEngine;
 
 	// 从 application.properties 中读取配置，如取不到默认值为Hello Shanhy
 	@Value("${application.hello:Hello Angel}")
@@ -110,5 +121,32 @@ public class User1Controller {
 		redisTemplate.opsForValue().set(user.getName(), user);
 		return "ok";
 	}
+	
+	
+	@RequestMapping("/freemarker")
+    public String index(ModelMap map) {
+        map.addAttribute("host", "http://blog.didispace.com");
+        return "index";
+    }
+	
+	@RequestMapping("/sendMail1")
+    public String sendMail1(ModelMap map) throws MyException{
+		try {
+			map.addAttribute("host", "http://blog.didispace.com");
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setFrom("rhl@linkgap.com");
+			message.setTo("rhl@linkgap.com");
+			message.setSubject("主题：简单邮件");
+			message.setText("测试邮件内容");
+			
+			mailSender.send(message);
+			return "index";
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e);
+			return "index";
+		}
+    }
+	
 
 }
