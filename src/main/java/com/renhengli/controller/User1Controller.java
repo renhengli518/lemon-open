@@ -1,16 +1,22 @@
 package com.renhengli.controller;
 
+import java.io.File;
 import java.util.Map;
+
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -134,12 +140,37 @@ public class User1Controller {
 		try {
 			map.addAttribute("host", "http://blog.didispace.com");
 			SimpleMailMessage message = new SimpleMailMessage();
-			message.setFrom("rhl@linkgap.com");
+			message.setFrom("985602166@qq.com");
 			message.setTo("rhl@linkgap.com");
 			message.setSubject("主题：简单邮件");
 			message.setText("测试邮件内容");
 			
 			mailSender.send(message);
+			return "index";
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e);
+			return "index";
+		}
+    }
+	
+	@RequestMapping("/sendMail2")
+    public String sendMail2(ModelMap map,HttpServletRequest request) throws MyException{
+		try {
+			map.addAttribute("host", "http://blog.didispace.com");
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+			helper.setFrom("985602166@qq.com");
+			helper.setTo("rhl@linkgap.com");
+			helper.setSubject("主题：有附件");
+			helper.setText("有附件的邮件");
+
+			FileSystemResource file = new FileSystemResource(new File("E:/temp/image/test.jpg"));
+			helper.addAttachment("附件-1.jpg", file);
+			helper.addAttachment("附件-2.jpg", file);
+
+			mailSender.send(mimeMessage);
 			return "index";
 		} catch (Exception e) {
 			e.printStackTrace();

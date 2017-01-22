@@ -98,7 +98,7 @@ public class ApplicationTests {
 	public void sendSimpleMail() throws Exception {
 
 		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom("rhl@linkgap.com");
+		message.setFrom("985602166@qq.com");
 		message.setTo("rhl@linkgap.com");
 		message.setSubject("主题：简单邮件");
 		message.setText("测试邮件内容");
@@ -112,12 +112,12 @@ public class ApplicationTests {
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-		helper.setFrom("rhl@linkgap.com");
+		helper.setFrom("985602166@qq.com");
 		helper.setTo("rhl@linkgap.com");
 		helper.setSubject("主题：有附件");
 		helper.setText("有附件的邮件");
 
-		FileSystemResource file = new FileSystemResource(new File("/image/test.jpg"));
+		FileSystemResource file = new FileSystemResource(new File("E:/temp/image/test.jpg"));
 		helper.addAttachment("附件-1.jpg", file);
 		helper.addAttachment("附件-2.jpg", file);
 
@@ -130,12 +130,12 @@ public class ApplicationTests {
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-		helper.setFrom("dyc87112@qq.com");
-		helper.setTo("dyc87112@qq.com");
+		helper.setFrom("985602166@qq.com");
+		helper.setTo("rhl@linkgap.com");
 		helper.setSubject("主题：嵌入静态资源");
 		helper.setText("<html><body><img src=\"cid:weixin\" ></body></html>", true);
 
-		FileSystemResource file = new FileSystemResource(new File("weixin.jpg"));
+		FileSystemResource file = new FileSystemResource(new File("E:/temp/image/test.jpg"));
 		helper.addInline("weixin", file);
 
 		mailSender.send(mimeMessage);
@@ -147,8 +147,8 @@ public class ApplicationTests {
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-		helper.setFrom("dyc87112@qq.com");
-		helper.setTo("dyc87112@qq.com");
+		helper.setFrom("985602166@qq.com");
+		helper.setTo("rhl@linkgap.com");
 		helper.setSubject("主题：模板邮件");
 
 		Map<String, Object> model = new HashedMap();
