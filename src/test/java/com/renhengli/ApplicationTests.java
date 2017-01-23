@@ -1,6 +1,7 @@
 package com.renhengli;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +25,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
+import com.oracle.jrockit.jfr.Producer;
 import com.renhengli.entity.User;
+import com.renhengli.rabbit.Receiver;
+import com.renhengli.rabbit.Sender;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -42,6 +46,12 @@ public class ApplicationTests {
 
 	@Autowired
 	private VelocityEngine velocityEngine;
+	
+	@Autowired
+	private Sender sender;
+	
+	@Autowired
+	private Receiver receiver;
 
 	@Test
 	public void test() throws Exception {
@@ -159,4 +169,21 @@ public class ApplicationTests {
 		mailSender.send(mimeMessage);
 	}
 
+	
+	
+
+	/**
+	 * rabbitMQ test
+	 * @throws Exception
+	 */
+	@Test
+	public void send() throws Exception {
+		sender.send();;
+	}
+	
+	@Test
+	public void receiver() throws Exception {
+		receiver.process("hello");
+	}
+	
 }
