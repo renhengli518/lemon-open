@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
  * @author renhengli
  *
  */
-@Configuration
+//@Configuration
 public class RabbitConfig {
 	/** 消息交换机的名字*/
     public static final String EXCHANGE = "my-mq-exchange";

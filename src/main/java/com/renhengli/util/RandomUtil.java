@@ -2,12 +2,15 @@ package com.renhengli.util;
 
 import java.util.Random;
 
+import org.springframework.stereotype.Component;
+
 /**
  * 随机工具类
  * 
  * @author renhengli
  * @version 1.0 2016-09-29
  */
+@Component
 public class RandomUtil {
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public static final String LETTERCHAR = "abcdefghijkllmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

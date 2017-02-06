@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.mail.internet.MimeMessage;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.velocity.app.VelocityEngine;
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,7 +24,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
-import com.oracle.jrockit.jfr.Producer;
 import com.renhengli.entity.User;
 import com.renhengli.rabbit.Receiver;
 import com.renhengli.rabbit.Sender;
@@ -161,7 +159,7 @@ public class ApplicationTests {
 		helper.setTo("rhl@linkgap.com");
 		helper.setSubject("主题：模板邮件");
 
-		Map<String, Object> model = new HashedMap();
+		Map<String, Object> model = new HashMap<String,Object>();
 		model.put("username", "didi");
 		String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "template.vm", "UTF-8", model);
 		helper.setText(text, true);

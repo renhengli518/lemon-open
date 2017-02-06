@@ -2,6 +2,7 @@ package com.renhengli.controller;
 
 import java.io.File;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -42,15 +43,15 @@ public class User1Controller {
 
 	@Autowired
 	DemoService demoService;
-	
+
 	@Autowired
 	private StringRedisTemplate stringRedisTemplate;
 
 	@Autowired
 	private RedisTemplate<String, User> redisTemplate;
-	
+
 	@Autowired
-	@Qualifier("mailSender") 
+	@Qualifier("mailSender")
 	private JavaMailSender mailSender;
 
 	@Autowired
@@ -76,7 +77,7 @@ public class User1Controller {
 	@ResponseBody
 	public String putCache() throws MyException {
 		try {
-			//demoService.findUser(1l, "wang", 20);
+			// demoService.findUser(1l, "wang", 20);
 			System.out.println("若下面没出现“无缓存的时候调用”字样且能打印出数据表示测试成功");
 			return "ok";
 		} catch (Exception e) {
@@ -88,9 +89,10 @@ public class User1Controller {
 	@RequestMapping("/test2")
 	@ResponseBody
 	public String testCache() {
-		//User user = demoService.findUser(1l, "wang", 22);
+		// User user = demoService.findUser(1l, "wang", 22);
 		System.out.println("我这里没执行查询");
-		//System.out.println("user:" + "/" + user.getName() + "/" + user.getAge());
+		// System.out.println("user:" + "/" + user.getName() + "/" +
+		// user.getAge());
 		return "ok";
 	}
 
@@ -115,10 +117,11 @@ public class User1Controller {
 	public String redis() throws Exception {
 		// 保存字符串
 		stringRedisTemplate.opsForValue().set("aaa", "111");
-		System.out.println("------------"+stringRedisTemplate.opsForValue().get("aaa")+"--------------------");
+		System.out.println("------------" + stringRedisTemplate.opsForValue().get("aaa") + "--------------------");
 		// 保存对象
 		User user = new User(1l, "超人", 20);
-		redisTemplate.opsForValue().set(user.getName(), user);
+		redisTemplate.opsForValue().set(user.getName(), user, 50, TimeUnit.SECONDS);
+		System.out.println("--------------" + redisTemplate.getExpire("超人"));
 
 		user = new User(2l, "蝙蝠侠", 30);
 		redisTemplate.opsForValue().set(user.getName(), user);
@@ -127,16 +130,15 @@ public class User1Controller {
 		redisTemplate.opsForValue().set(user.getName(), user);
 		return "ok";
 	}
-	
-	
+
 	@RequestMapping("/freemarker")
-    public String index(ModelMap map) {
-        map.addAttribute("host", "http://blog.didispace.com");
-        return "index";
-    }
-	
+	public String index(ModelMap map) {
+		map.addAttribute("host", "http://blog.didispace.com");
+		return "index";
+	}
+
 	@RequestMapping("/sendMail1")
-    public String sendMail1(ModelMap map) throws MyException{
+	public String sendMail1(ModelMap map) throws MyException {
 		try {
 			map.addAttribute("host", "http://blog.didispace.com");
 			SimpleMailMessage message = new SimpleMailMessage();
@@ -144,7 +146,7 @@ public class User1Controller {
 			message.setTo("rhl@linkgap.com");
 			message.setSubject("主题：简单邮件");
 			message.setText("测试邮件内容");
-			
+
 			mailSender.send(message);
 			return "index";
 		} catch (Exception e) {
@@ -152,10 +154,10 @@ public class User1Controller {
 			logger.error(e);
 			return "index";
 		}
-    }
-	
+	}
+
 	@RequestMapping("/sendMail2")
-    public String sendMail2(ModelMap map,HttpServletRequest request) throws MyException{
+	public String sendMail2(ModelMap map, HttpServletRequest request) throws MyException {
 		try {
 			map.addAttribute("host", "http://blog.didispace.com");
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -177,7 +179,6 @@ public class User1Controller {
 			logger.error(e);
 			return "index";
 		}
-    }
-	
+	}
 
 }
