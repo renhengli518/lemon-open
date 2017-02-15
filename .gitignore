@@ -1,2 +1,10 @@
-/target/
-/logs/
+target/
+
+/webapp/WEB-INF/classes
+
+/.settings
+
+/.classpath
+
+/.project
+/mossle.store
